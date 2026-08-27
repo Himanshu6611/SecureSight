@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  secure-sight:
+    # Build the image from the Dockerfile that lives in the repository root
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: secure-sight
+
+    # Expose the Flask app on the host (http://localhost:5000)
+    ports:
+      - "5000:5000"
+
+    # Pull in any secret / config values you keep in a .env file.
+    # The file should also live in the repo root (it is .git‑ignored).
+    env_file:
+      - .env
+
+    # Optional – mount the data / model directories so you can
+    # replace them without rebuilding the image.
+    volumes:
+      - ./data:/app/data:ro        # read‑only – you normally don't want the container to modify raw data
+      - ./models:/app/models:ro    # keep the trained model outside the image (useful for CI)
+
+    # Restart policy for production‑like stability
+    restart: unless-stopped
+
+    # A simple health‑check that asks the web service for its index page.
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

@@ -1,6 +1,34 @@
+# Environment & secrets
 .env
-venv/
+
+# Python cache
 __pycache__/
 *.pyc
-data/
+*.pyo
+*.pyd
+.Python
+
+# Virtual environment
+venv/
+.venv/
+
+# Large trained model files (too big for GitHub — store separately)
 models/*.pkl
+
+# Pytest cache
+.pytest_cache/
+
+# VS Code settings
+.vscode/
+
+# Temp / list files
+file_list.txt
+file_list_utf8.txt
+file_list_webp.txt
+test_output.txt
+
+# Data (raw CSVs can be large — keep processed small ones if needed)
+data/raw/
+
+# Image datasets (~221k files — too big for GitHub, store separately)
+data/Data Set*/

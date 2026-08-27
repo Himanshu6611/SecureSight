@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Secure Sight – AI-Powered Phishing &amp; Cyber Threat Detection System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Secure Sight is an enterprise-grade AI cyber threat detection platform. Instantly analyze malicious URLs, phishing email content, and deepfake AI-generated images.">
+    <meta name="keywords" content="Secure Sight, phishing detection, cyber threat intelligence, URL safety scanner, email phishing analyzer, deepfake image detection, AI cybersecurity">
+    <meta name="author" content="Secure Sight Cybersecurity Team">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="http://127.0.0.1:5000/">
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:site_name" content="Secure Sight">
+    <meta property="og:title" content="Secure Sight – AI Cyber Threat Detection System">
+    <meta property="og:description" content="Protect against malicious URLs, email phishing, and deepfake image manipulation with Secure Sight's AI classification and real-time reputation scoring.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://127.0.0.1:5000/">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Secure Sight – AI Cyber Threat Detection System">
+    <meta name="twitter:description" content="Instantly analyze URLs, email content, and deepfake images for phishing and security threats with Secure Sight.">
+
+    <!-- JSON-LD Structured Data Schema -->
+    <script type="application/ld+json" id="securesight-jsonld">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Secure Sight",
+      "url": "http://127.0.0.1:5000/",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "All",
+      "description": "Secure Sight is an advanced multi-vector AI threat analysis platform that detects phishing URLs, fraudulent email messages, and deepfake synthetic images in real time.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Header & Navbar -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark pg-navbar" aria-label="Main Navigation">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center gap-2" href="/" id="navbar-brand-logo">
+                    <div class="brand-icon">
+                        <i class="bi bi-shield-fill-check"></i>
+                    </div>
+                    <span class="brand-name">Secure Sight</span>
+                </a>
+                <div class="ms-auto d-flex align-items-center gap-3">
+                    <span class="status-pill" id="live-protection-status">
+                        <span class="status-dot"></span>
+                        Live Protection
+                    </span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <div class="hero-badge mb-3">
+                <i class="bi bi-cpu me-1"></i> AI-Powered Detection
+            </div>
+            <h1 class="hero-title">Detect Phishing Instantly</h1>
+            <p class="hero-subtitle">Analyze URLs, emails, and images with advanced machine learning to stay protected online.</p>
+            <div class="hero-stats d-flex justify-content-center gap-4 mt-4 flex-wrap">
+                <div class="stat-item">
+                    <div class="stat-value">99.2%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Detection Modes</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-value">&lt;1s</div>
+                    <div class="stat-label">Analysis Time</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+
+            {% if error_msg %}
+            <div class="alert-custom alert-danger-custom mb-4" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                <span>{{ error_msg }}</span>
+                <button type="button" class="alert-close" onclick="this.parentElement.remove()" aria-label="Close">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            {% endif %}
+
+            <!-- Detector Card -->
+            <div class="detector-card">
+                <!-- Tab Switcher -->
+                <div class="tab-switcher">
+                    <button class="tab-btn {% if check_type == 'url' or not check_type %}active{% endif %}" data-target="tab-url">
+                        <i class="bi bi-link-45deg"></i>
+                        <span>URL</span>
+                    </button>
+                    <button class="tab-btn {% if check_type == 'email' %}active{% endif %}" data-target="tab-email">
+                        <i class="bi bi-envelope"></i>
+                        <span>Email</span>
+                    </button>
+                    <button class="tab-btn {% if check_type == 'image' %}active{% endif %}" data-target="tab-image">
+                        <i class="bi bi-image"></i>
+                        <span>Image</span>
+                    </button>
+                    <div class="tab-indicator"></div>
+                </div>
+
+                <!-- Tab Panels -->
+                <div class="tab-panels">
+
+                    <!-- URL Tab -->
+                    <div class="tab-panel {% if check_type == 'url' or not check_type %}active{% endif %}" id="tab-url">
+                        <form method="post" id="url-form">
+                            <input type="hidden" name="check_type" value="url">
+                            <div class="input-row">
+                                <div class="input-wrapper flex-grow-1">
+                                    <i class="bi bi-link-45deg input-icon"></i>
+                                    <input type="url" name="url" class="pg-input"
+                                        placeholder="https://example.com/suspicious-page"
+                                        value="{{ result.url if result and result.type == 'url' else '' }}"
+                                        autocomplete="off">
+                                </div>
+                                <button type="submit" class="pg-btn pg-btn-primary" id="url-submit-btn">
+                                    <span class="btn-text">Analyze URL</span>
+                                    <span class="btn-spinner d-none"><i class="bi bi-arrow-repeat spin"></i></span>
+                                </button>
+                            </div>
+                            <p class="input-hint"><i class="bi bi-info-circle me-1"></i>Paste any URL to check for phishing indicators, malicious redirects, and suspicious patterns.</p>
+                        </form>
+                    </div>
+
+                    <!-- Email Tab -->
+                    <div class="tab-panel {% if check_type == 'email' %}active{% endif %}" id="tab-email">
+                        <form method="post" id="email-form">
+                            <input type="hidden" name="check_type" value="email">
+                            <div class="textarea-wrapper">
+                                <i class="bi bi-envelope textarea-icon"></i>
+                                <textarea name="email_text" class="pg-textarea" rows="5"
+                                    placeholder="Paste the full email content here — including subject, body, and any suspicious links...">{{ result.content_snippet if result and result.type == 'email' else '' }}</textarea>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <p class="input-hint mb-0"><i class="bi bi-info-circle me-1"></i>Include headers and links for best results.</p>
+                                <button type="submit" class="pg-btn pg-btn-primary" id="email-submit-btn">
+                                    <span class="btn-text">Analyze Email</span>
+                                    <span class="btn-spinner d-none"><i class="bi bi-arrow-repeat spin"></i></span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Image Tab -->
+                    <div class="tab-panel {% if check_type == 'image' %}active{% endif %}" id="tab-image">
+                        <form method="post" enctype="multipart/form-data" id="image-form">
+                            <input type="hidden" name="check_type" value="image">
+                            <div class="dropzone" id="dropzone">
+                                <input type="file" name="image_file" id="image-file-input" accept="image/png,image/jpeg,image/webp" class="dropzone-input">
+                                <div class="dropzone-content" id="dropzone-content">
+                                    <div class="dropzone-icon"><i class="bi bi-cloud-arrow-up"></i></div>
+                                    <p class="dropzone-title">Drop image here or <span class="dropzone-link">browse</span></p>
+                                    <p class="dropzone-hint">JPG, PNG, WEBP — max 5 MB</p>
+                                </div>
+                                <div class="dropzone-preview d-none" id="dropzone-preview">
+                                    <img id="preview-img" src="" alt="Preview" class="preview-image">
+                                    <div class="preview-info">
+                                        <p class="preview-name" id="preview-name"></p>
+                                        <button type="button" class="preview-remove" id="preview-remove"><i class="bi bi-x-circle-fill"></i> Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end mt-3">
+                                <button type="submit" class="pg-btn pg-btn-primary" id="image-submit-btn">
+                                    <span class="btn-text">Analyze Image</span>
+                                    <span class="btn-spinner d-none"><i class="bi bi-arrow-repeat spin"></i></span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Result Section -->
+            {% if result %}
+            <div class="result-section mt-4" id="result-section">
+
+                <!-- Verdict Banner -->
+                <div class="verdict-banner {% if result.decision in ['Phishing', 'AI Generated'] %}verdict-danger{% else %}verdict-safe{% endif %}">
+                    <div class="verdict-icon">
+                        {% if result.decision in ['Phishing', 'AI Generated'] %}
+                        <i class="bi bi-shield-x-fill"></i>
+                        {% else %}
+                        <i class="bi bi-shield-check-fill"></i>
+                        {% endif %}
+                    </div>
+                    <div class="verdict-text">
+                        <div class="verdict-label">Detection Result</div>
+                        <div class="verdict-decision">{{ result.decision }}</div>
+                    </div>
+                    <div class="verdict-badge">
+                        {% if result.decision in ['Phishing', 'AI Generated'] %}
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i> Threat Detected
+                        {% else %}
+                        <i class="bi bi-check-circle-fill me-1"></i> No Threat Found
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Metrics Row -->
+                <div class="metrics-row">
+                    <div class="metric-card">
+                        <div class="metric-label">
+                            {% if result.type == 'url' %}Target URL
+                            {% elif result.type == 'email' %}Email Preview
+                            {% else %}File Analyzed{% endif %}
+                        </div>
+                        <div class="metric-value text-break">
+                            {% if result.type == 'url' %}{{ result.url }}
+                            {% elif result.type == 'email' %}{{ result.content_snippet }}
+                            {% else %}{{ result.filename }}{% endif %}
+                        </div>
+                    </div>
+
+                    {% if result.type == 'image' %}
+                    <div class="metric-card metric-card-stat">
+                        <div class="metric-label">AI Risk Score</div>
+                        <div class="metric-big {% if result.risk_score > 50 %}text-danger{% else %}text-success{% endif %}">
+                            {{ result.risk_score }}<span class="metric-unit">%</span>
+                        </div>
+                        <div class="metric-bar">
+                            <div class="metric-bar-fill {% if result.risk_score > 50 %}bar-danger{% else %}bar-safe{% endif %}"
+                                style="width: {{ result.risk_score }}%"></div>
+                        </div>
+                    </div>
+                    <div class="metric-card metric-card-stat">
+                        <div class="metric-label">Anomalies Found</div>
+                        <div class="metric-big {% if result.signals|length > 0 %}text-danger{% else %}text-success{% endif %}">
+                            {{ result.signals|length }}
+                        </div>
+                        <div class="metric-sub">Detected Flags</div>
+                    </div>
+                    {% else %}
+                    <div class="metric-card metric-card-stat">
+                        <div class="metric-label">ML Probability</div>
+                        <div class="metric-big {% if result.ml_probability > 0.5 %}text-danger{% else %}text-success{% endif %}">
+                            {{ (result.ml_probability * 100) | round(1) }}<span class="metric-unit">%</span>
+                        </div>
+                        <div class="metric-bar">
+                            <div class="metric-bar-fill {% if result.ml_probability > 0.5 %}bar-danger{% else %}bar-safe{% endif %}"
+                                style="width: {{ (result.ml_probability * 100) | round(1) }}%"></div>
+                        </div>
+                    </div>
+                    <div class="metric-card metric-card-stat">
+                        <div class="metric-label">{% if result.type == 'url' %}Risk Score{% else %}Suspicious Words{% endif %}</div>
+                        <div class="metric-big {% if result.type == 'url' and result.risk_score > 50 %}text-danger{% elif result.type == 'email' and result.ml_probability > 0.5 %}text-danger{% else %}text-success{% endif %}">
+                            {% if result.type == 'url' %}{{ result.risk_score }}{% else %}{{ explanation.features.keyword_hits }}{% endif %}
+                        </div>
+                        <div class="metric-sub">{% if result.type == 'url' %}0–100 Scale{% else %}Keywords Matched{% endif %}</div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Breakdown Toggle -->
+                <div class="breakdown-section">
+                    <button class="breakdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#breakdown-body" aria-expanded="false">
+                        <span><i class="bi bi-bar-chart-line me-2"></i>View Detailed Breakdown</span>
+                        <i class="bi bi-chevron-down toggle-chevron"></i>
+                    </button>
+
+                    <div class="collapse" id="breakdown-body">
+                        <div class="breakdown-body">
+
+                            {% if result.type == 'url' %}
+                            <div class="breakdown-grid">
+                                {% for key, value in explanation.risk_breakdown.items() %}
+                                {% if not key.endswith('(0‑1)') and not key.endswith('days') %}
+                                <div class="breakdown-item">
+                                    <div class="breakdown-key">{{ key }}</div>
+                                    {% set risk_key = key ~ ' risk (0‑1)' %}
+                                    {% if explanation.risk_breakdown[risk_key] is defined %}
+                                    {% set r_val = explanation.risk_breakdown[risk_key] * 100 %}
+                                    <div class="breakdown-bar-wrap">
+                                        <div class="breakdown-bar-fill {% if r_val > 70 %}bar-danger{% elif r_val > 30 %}bar-warning{% else %}bar-safe{% endif %}"
+                                            style="width: {{ r_val }}%"></div>
+                                    </div>
+                                    {% endif %}
+                                    <div class="breakdown-val">
+                                        {% if value is sameas true %}
+                                        <span class="chip chip-success"><i class="bi bi-check-lg"></i> Yes</span>
+                                        {% elif value is sameas false %}
+                                        <span class="chip chip-danger"><i class="bi bi-x-lg"></i> No</span>
+                                        {% else %}
+                                        <span class="chip chip-neutral">{{ value }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+
+                            {% elif result.type == 'email' %}
+                            <div class="breakdown-grid">
+                                {% for key, value in explanation.features.items() %}
+                                <div class="breakdown-item">
+                                    <div class="breakdown-key">{{ key | replace('_', ' ') | title }}</div>
+                                    <div class="breakdown-val">
+                                        <span class="chip chip-neutral">{{ value }}</span>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                            {% elif result.type == 'image' %}
+                            <div class="breakdown-grid">
+                                <div class="breakdown-item">
+                                    <div class="breakdown-key">Deep Learning AI Probability</div>
+                                    <div class="breakdown-bar-wrap">
+                                        <div class="breakdown-bar-fill {% if (result.ml_risk | default(0)) > 0.5 %}bar-danger{% else %}bar-safe{% endif %}"
+                                            style="width: {{ ((result.ml_risk | default(0)) * 100) | round(1) }}%"></div>
+                                    </div>
+                                    <div class="breakdown-val"><span class="chip chip-neutral">{{ ((result.ml_risk | default(0)) * 100) | round(1) }}%</span></div>
+                                </div>
+                                <div class="breakdown-item">
+                                    <div class="breakdown-key">ELA Score (Forensics)</div>
+                                    <div class="breakdown-bar-wrap">
+                                        <div class="breakdown-bar-fill {% if (result.ela_score | default(0)) > 0.5 %}bar-danger{% else %}bar-safe{% endif %}"
+                                            style="width: {{ ((result.ela_score | default(0)) * 100) | round(1) }}%"></div>
+                                    </div>
+                                    <div class="breakdown-val"><span class="chip chip-neutral">{{ ((result.ela_score | default(0)) * 100) | round(1) }}%</span></div>
+                                </div>
+                                <div class="breakdown-item">
+                                    <div class="breakdown-key">Frequency Artifacts (FFT)</div>
+                                    <div class="breakdown-bar-wrap">
+                                        <div class="breakdown-bar-fill {% if (result.fft_score | default(0)) > 0.5 %}bar-danger{% else %}bar-safe{% endif %}"
+                                            style="width: {{ ((result.fft_score | default(0)) * 100) | round(1) }}%"></div>
+                                    </div>
+                                    <div class="breakdown-val"><span class="chip chip-neutral">{{ ((result.fft_score | default(0)) * 100) | round(1) }}%</span></div>
+                                </div>
+                                <div class="breakdown-item">
+                                    <div class="breakdown-key">Unnatural Noise Variance</div>
+                                    <div class="breakdown-bar-wrap">
+                                        <div class="breakdown-bar-fill {% if (result.noise_score | default(0)) > 0.5 %}bar-danger{% else %}bar-safe{% endif %}"
+                                            style="width: {{ ((result.noise_score | default(0)) * 100) | round(1) }}%"></div>
+                                    </div>
+                                    <div class="breakdown-val"><span class="chip chip-neutral">{{ ((result.noise_score | default(0)) * 100) | round(1) }}%</span></div>
+                                </div>
+                            </div>
+                            {% if result.signals %}
+                            <div class="signals-section mt-3">
+                                <div class="signals-label">Detected Anomalies</div>
+                                <div class="signals-list">
+                                    {% for signal in result.signals %}
+                                    <span class="signal-chip">
+                                        <i class="bi bi-exclamation-circle me-1"></i>
+                                        {{ signal | replace('_', ' ') | title }}
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endif %}
+
+                            <!-- AI Insight -->
+                            <div class="ai-insight mt-4">
+                                <div class="ai-insight-header">
+                                    <i class="bi bi-stars me-2"></i>AI Insight
+                                </div>
+                                <p class="ai-insight-body">
+                                    {% if result.type == 'image' %}
+                                    Our ensemble analysis calculated a <strong>{{ result.risk_score }}%</strong> risk of this image being AI-generated or manipulated, based on Deep Learning detection and forensic heuristics including Error Level Analysis (ELA) and frequency artifact scanning.
+                                    {% else %}
+                                    Our analysis calculated a <strong>{{ (result.ml_probability * 100) | round(1) }}%</strong> probability of this being a phishing attempt, based on patterns found in the provided content and cross-referenced against known threat signatures.
+                                    {% endif %}
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            {% endif %}
+
+        </div>
+    </main>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title text-center">How It Works</h2>
+            <div class="row g-4 mt-2">
+                <div class="col-md-4">
+                    <div class="how-card">
+                        <div class="how-icon how-icon-1"><i class="bi bi-search"></i></div>
+                        <h5>Submit Content</h5>
+                        <p>Paste a URL, email body, or upload an image you want to verify.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="how-card">
+                        <div class="how-icon how-icon-2"><i class="bi bi-cpu"></i></div>
+                        <h5>AI Analysis</h5>
+                        <p>Our ensemble ML model extracts features and scores threat probability in real time.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="how-card">
+                        <div class="how-icon how-icon-3"><i class="bi bi-shield-check"></i></div>
+                        <h5>Get Results</h5>
+                        <p>Receive a clear verdict with a detailed breakdown of every risk signal found.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pg-footer">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-shield-fill-check footer-logo-icon"></i>
+                <span class="footer-brand">Secure Sight</span>
+            </div>
+            <span class="footer-copy">© 2026 Secure Sight — Developed for Academic Research &amp; Online Safety</span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+
+</html>
