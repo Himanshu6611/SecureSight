@@ -1,8 +1,21 @@
 {
   "trained_on": {
-    "n_samples": 233670,
+    "n_samples": 232472,
     "n_features": 11,
-    "date": "2026-01-09T11:26:26.623260"
+    "feature_names": [
+      "url_len",
+      "dot_cnt",
+      "hyphen_cnt",
+      "special_cnt",
+      "digit_cnt",
+      "token_hits",
+      "domain_len",
+      "subdomain_depth",
+      "has_ip",
+      "https",
+      "entropy"
+    ],
+    "date": "2026-08-27T23:43:07.506514"
   },
   "model_params": {
     "voting_weights": [
@@ -12,7 +25,10 @@
     ],
     "base_estimators": {
       "lr": {
-        "C": 1.0,
+        "copy": true,
+        "with_mean": true,
+        "with_std": true,
+        "C": 5.0,
         "class_weight": "balanced",
         "dual": false,
         "fit_intercept": true,
@@ -22,7 +38,7 @@
         "multi_class": "auto",
         "n_jobs": null,
         "penalty": "l2",
-        "random_state": null,
+        "random_state": 42,
         "solver": "lbfgs",
         "tol": 0.0001,
         "verbose": 0,
@@ -33,13 +49,13 @@
         "ccp_alpha": 0.0,
         "class_weight": "balanced",
         "criterion": "gini",
-        "max_depth": 15,
+        "max_depth": 20,
         "max_features": "sqrt",
         "max_leaf_nodes": null,
         "max_samples": null,
         "min_impurity_decrease": 0.0,
         "min_samples_leaf": 1,
-        "min_samples_split": 2,
+        "min_samples_split": 5,
         "min_weight_fraction_leaf": 0.0,
         "monotonic_cst": null,
         "n_estimators": 300,
@@ -53,7 +69,7 @@
         "ccp_alpha": 0.0,
         "class_weight": "balanced",
         "criterion": "gini",
-        "max_depth": 8,
+        "max_depth": 12,
         "max_features": null,
         "max_leaf_nodes": null,
         "min_impurity_decrease": 0.0,
@@ -67,10 +83,10 @@
     }
   },
   "metrics": {
-    "accuracy": 0.9972824924038174,
-    "precision": 0.9959354099693308,
-    "recall": 0.9993696700037078,
-    "f1": 0.9976495845131679,
-    "roc_auc": 0.9985820867549655
+    "accuracy": 0.9929669856973868,
+    "precision": 0.9909342177998894,
+    "recall": 0.9969966629588431,
+    "f1": 0.9939561962850014,
+    "roc_auc": 0.9972820134478627
   }
 }
