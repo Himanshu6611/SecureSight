@@ -45,8 +45,13 @@ def _domain_age_in_days(domain: str) -> int:
         socket.setdefaulttimeout(2.0)
         w = whois.whois(domain)
         creation = w.creation_date
-        if isinstance(creation, list):
+        if isinstance(creation, list) and len(creation) > 0:
             creation = creation[0]
+        if isinstance(creation, str):
+            try:
+                creation = pd.to_datetime(creation).to_pydatetime()
+            except Exception:
+                creation = None
         if isinstance(creation, datetime.datetime):
             # Ensure creation is naive for comparison if it is, or make both aware
             if creation.tzinfo is not None:

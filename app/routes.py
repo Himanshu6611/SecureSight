@@ -141,14 +141,16 @@ def index():
 @bp.route("/robots.txt", methods=["GET"])
 def robots_txt():
     from flask import Response
-    site_url = request.url_root.rstrip("/")
+    import os
+    site_url = os.getenv("SITE_URL", "").rstrip("/") or request.url_root.rstrip("/")
     content = f"User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: {site_url}/sitemap.xml\n"
     return Response(content, mimetype="text/plain")
 
 @bp.route("/sitemap.xml", methods=["GET"])
 def sitemap_xml():
     from flask import Response
-    site_url = request.url_root.rstrip("/")
+    import os
+    site_url = os.getenv("SITE_URL", "").rstrip("/") or request.url_root.rstrip("/")
     xml_content = f"""<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
@@ -186,7 +188,7 @@ def api_analyze():
         feat_df = pd.DataFrame([feats])
 
         # ---------- ML probability ----------
-        ml_prob = predict_proba(MODEL, feat_df)
+        ml_prob = predict_proba(MODEL, feat_df) if MODEL else 0.5
 
         # ---------- Reputation / risk ----------
         risk = compute_risk_score(url, feats)

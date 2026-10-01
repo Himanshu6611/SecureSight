@@ -40,3 +40,14 @@ def test_api_analyze_noindex(client):
     response = client.post("/api/analyze", json={"url": "http://example.com"})
     assert response.status_code == 200
     assert response.headers.get("X-Robots-Tag") == "noindex, nofollow"
+
+def test_api_analyze_missing_url(client):
+    response = client.post("/api/analyze", json={})
+    assert response.status_code == 400
+    assert b"No URL provided" in response.data
+
+def test_image_analysis_post_no_file(client):
+    response = client.post("/", data={"check_type": "image"})
+    assert response.status_code == 200
+    assert b"Please upload an image" in response.data
+
