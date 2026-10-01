@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: securesight
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: singapore
+    envVars:
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+      - key: SITE_URL
+        sync: false
+      - key: VT_API_KEY
+        sync: false
+    healthCheckPath: /
+    autoDeploy: true

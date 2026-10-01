@@ -12,8 +12,10 @@ __pycache__/
 venv/
 .venv/
 
-# Large trained model files (too big for GitHub — store separately)
-models/*.pkl
+# Large trained model files
+# ensemble.pkl (~34MB) is included for Render.com deployment
+# email_model.pkl (~298MB) is too large — excluded
+models/email_model.pkl
 
 # Pytest cache
 .pytest_cache/

@@ -350,7 +350,7 @@
                         </div>
                         <div class="metric-bar">
                             <div class="metric-bar-fill {% if result.risk_score > 50 %}bar-danger{% else %}bar-safe{% endif %}"
-                                style="width: {{ result.risk_score }}%"></div>
+                                data-width="{{ result.risk_score }}"></div>
                         </div>
                     </div>
                     <div class="metric-card metric-card-stat">
@@ -368,7 +368,7 @@
                         </div>
                         <div class="metric-bar">
                             <div class="metric-bar-fill {% if result.ml_probability > 0.5 %}bar-danger{% else %}bar-safe{% endif %}"
-                                style="width: {{ (result.ml_probability * 100) | round(1) }}%"></div>
+                                data-width="{{ (result.ml_probability * 100) | round(1) }}"></div>
                         </div>
                     </div>
                     <div class="metric-card metric-card-stat">
@@ -402,7 +402,7 @@
                                     {% set r_val = explanation.risk_breakdown[risk_key] * 100 %}
                                     <div class="breakdown-bar-wrap">
                                         <div class="breakdown-bar-fill {% if r_val > 70 %}bar-danger{% elif r_val > 30 %}bar-warning{% else %}bar-safe{% endif %}"
-                                            style="width: {{ r_val }}%"></div>
+                                            data-width="{{ r_val }}"></div>
                                     </div>
                                     {% endif %}
                                     <div class="breakdown-val">
@@ -437,7 +437,7 @@
                                     <div class="breakdown-key">Deep Learning AI Probability</div>
                                     <div class="breakdown-bar-wrap">
                                         <div class="breakdown-bar-fill {% if (result.ml_risk | default(0)) > 0.5 %}bar-danger{% else %}bar-safe{% endif %}"
-                                            style="width: {{ ((result.ml_risk | default(0)) * 100) | round(1) }}%"></div>
+                                            data-width="{{ ((result.ml_risk | default(0)) * 100) | round(1) }}"></div>
                                     </div>
                                     <div class="breakdown-val"><span class="chip chip-neutral">{{ ((result.ml_risk | default(0)) * 100) | round(1) }}%</span></div>
                                 </div>
@@ -445,7 +445,7 @@
                                     <div class="breakdown-key">Error Level Analysis (ELA)</div>
                                     <div class="breakdown-bar-wrap">
                                         <div class="breakdown-bar-fill {% if (result.ela_score | default(0)) > 0.5 %}bar-danger{% else %}bar-safe{% endif %}"
-                                            style="width: {{ ((result.ela_score | default(0)) * 100) | round(1) }}%"></div>
+                                            data-width="{{ ((result.ela_score | default(0)) * 100) | round(1) }}"></div>
                                     </div>
                                     <div class="breakdown-val"><span class="chip chip-neutral">{{ ((result.ela_score | default(0)) * 100) | round(1) }}%</span></div>
                                 </div>
@@ -453,7 +453,7 @@
                                     <div class="breakdown-key">Fast Fourier Transform (FFT Artifacts)</div>
                                     <div class="breakdown-bar-wrap">
                                         <div class="breakdown-bar-fill {% if (result.fft_score | default(0)) > 0.5 %}bar-danger{% else %}bar-safe{% endif %}"
-                                            style="width: {{ ((result.fft_score | default(0)) * 100) | round(1) }}%"></div>
+                                            data-width="{{ ((result.fft_score | default(0)) * 100) | round(1) }}"></div>
                                     </div>
                                     <div class="breakdown-val"><span class="chip chip-neutral">{{ ((result.fft_score | default(0)) * 100) | round(1) }}%</span></div>
                                 </div>
@@ -461,7 +461,7 @@
                                     <div class="breakdown-key">Noise Variance Anomaly</div>
                                     <div class="breakdown-bar-wrap">
                                         <div class="breakdown-bar-fill {% if (result.noise_score | default(0)) > 0.5 %}bar-danger{% else %}bar-safe{% endif %}"
-                                            style="width: {{ ((result.noise_score | default(0)) * 100) | round(1) }}%"></div>
+                                            data-width="{{ ((result.noise_score | default(0)) * 100) | round(1) }}"></div>
                                     </div>
                                     <div class="breakdown-val"><span class="chip chip-neutral">{{ ((result.noise_score | default(0)) * 100) | round(1) }}%</span></div>
                                 </div>

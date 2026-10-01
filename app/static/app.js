@@ -103,7 +103,10 @@
     function animateBars() {
         const fills = document.querySelectorAll('.metric-bar-fill, .breakdown-bar-fill');
         fills.forEach(el => {
-            const target = el.style.width;
+            // Support both data-width (Jinja2 template) and existing style.width
+            const target = el.dataset.width
+                ? el.dataset.width + '%'
+                : el.style.width;
             el.style.width = '0%';
             requestAnimationFrame(() => {
                 setTimeout(() => { el.style.width = target; }, 80);
@@ -112,6 +115,7 @@
     }
 
     animateBars();
+
 
     /* ── Scroll result into view ──────────────────────────── */
     const resultSection = document.getElementById('result-section');
