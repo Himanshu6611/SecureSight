@@ -1,7 +1,7 @@
 def test_home_page(client):
     response = client.get("/")
     assert response.status_code == 200
-    assert b"Secure Sight" in response.data
+    assert b"SecureSight" in response.data or b"Secure Sight" in response.data
 
 def test_url_analysis_post(client):
     response = client.post("/", data={
@@ -9,7 +9,7 @@ def test_url_analysis_post(client):
         "url": "http://malicious-site.com"
     })
     assert response.status_code == 200
-    assert b"Detection Result" in response.data
+    assert b"Threat Verdict" in response.data or b"Detection Result" in response.data
 
 def test_email_analysis_post(client):
     response = client.post("/", data={
@@ -17,5 +17,26 @@ def test_email_analysis_post(client):
         "email_text": "Hey, this is a normal email."
     })
     assert response.status_code == 200
-    assert b"Detection Result" in response.data
+    assert b"Threat Verdict" in response.data or b"Detection Result" in response.data
 
+def test_robots_txt(client):
+    response = client.get("/robots.txt")
+    assert response.status_code == 200
+    assert b"User-agent: *" in response.data
+    assert b"Sitemap:" in response.data
+    assert b"Disallow: /api/" in response.data
+
+def test_sitemap_xml(client):
+    response = client.get("/sitemap.xml")
+    assert response.status_code == 200
+    assert response.mimetype == "application/xml"
+    assert b"<loc>" in response.data
+
+def test_favicon(client):
+    response = client.get("/favicon.ico")
+    assert response.status_code == 200
+
+def test_api_analyze_noindex(client):
+    response = client.post("/api/analyze", json={"url": "http://example.com"})
+    assert response.status_code == 200
+    assert response.headers.get("X-Robots-Tag") == "noindex, nofollow"

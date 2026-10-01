@@ -138,13 +138,47 @@ def index():
         error_msg=error_msg,
         check_type=check_type
     )
+@bp.route("/robots.txt", methods=["GET"])
+def robots_txt():
+    from flask import Response
+    site_url = request.url_root.rstrip("/")
+    content = f"User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: {site_url}/sitemap.xml\n"
+    return Response(content, mimetype="text/plain")
+
+@bp.route("/sitemap.xml", methods=["GET"])
+def sitemap_xml():
+    from flask import Response
+    site_url = request.url_root.rstrip("/")
+    xml_content = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>{site_url}/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
+"""
+    return Response(xml_content.strip(), mimetype="application/xml")
+
+@bp.route("/favicon.ico", methods=["GET"])
+def favicon():
+    from flask import send_from_directory
+    import os
+    return send_from_directory(
+        os.path.join(current_app.root_path, "static"),
+        "favicon.svg",
+        mimetype="image/svg+xml"
+    )
+
 @bp.route("/api/analyze", methods=["POST"])
 def api_analyze():
-    data = request.get_json()
+    data = request.get_json() or {}
     url = data.get("url", "").strip()
 
     if not url:
-        return jsonify({"error": "No URL provided."}), 400
+        res = jsonify({"error": "No URL provided."})
+        res.headers["X-Robots-Tag"] = "noindex, nofollow"
+        return res, 400
 
     try:
         # ---------- Feature extraction ----------
@@ -171,8 +205,12 @@ def api_analyze():
             }
         }
 
-        return jsonify(result)
+        res = jsonify(result)
+        res.headers["X-Robots-Tag"] = "noindex, nofollow"
+        return res
 
     except Exception as exc:
         current_app.logger.exception("Error processing URL")
-        return jsonify({"error": f"Unable to analyse the URL: {str(exc)}"}), 500
+        res = jsonify({"error": f"Unable to analyse the URL: {str(exc)}"})
+        res.headers["X-Robots-Tag"] = "noindex, nofollow"
+        return res, 500

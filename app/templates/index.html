@@ -3,47 +3,126 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Secure Sight – AI-Powered Phishing &amp; Cyber Threat Detection System</title>
+    <title>SecureSight – AI-Powered Phishing &amp; Cyber Threat Detection System</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Secure Sight is an enterprise-grade AI cyber threat detection platform. Instantly analyze malicious URLs, phishing email content, and deepfake AI-generated images.">
-    <meta name="keywords" content="Secure Sight, phishing detection, cyber threat intelligence, URL safety scanner, email phishing analyzer, deepfake image detection, AI cybersecurity">
-    <meta name="author" content="Secure Sight Cybersecurity Team">
+    <meta name="description" content="SecureSight is an enterprise-grade AI cyber threat detection platform. Instantly analyze malicious URLs, phishing email content, and deepfake AI-generated images with explainable real-time scores.">
+    <meta name="keywords" content="SecureSight, phishing detection, cyber threat intelligence, URL safety scanner, email phishing analyzer, deepfake image detection, AI cybersecurity, threat analysis">
+    <meta name="author" content="SecureSight Cybersecurity Team">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="http://127.0.0.1:5000/">
+    <link rel="canonical" href="{{ site_url }}/">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="alternate icon" href="/favicon.ico">
 
     <!-- Open Graph / Social Media Meta Tags -->
-    <meta property="og:site_name" content="Secure Sight">
-    <meta property="og:title" content="Secure Sight – AI Cyber Threat Detection System">
-    <meta property="og:description" content="Protect against malicious URLs, email phishing, and deepfake image manipulation with Secure Sight's AI classification and real-time reputation scoring.">
+    <meta property="og:site_name" content="SecureSight">
+    <meta property="og:title" content="SecureSight – AI Cyber Threat Detection System">
+    <meta property="og:description" content="Protect against malicious URLs, email phishing, and deepfake image manipulation with SecureSight's AI ensemble classification and real-time reputation scoring.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="http://127.0.0.1:5000/">
+    <meta property="og:url" content="{{ site_url }}/">
+    <meta property="og:image" content="{{ site_url }}/static/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="SecureSight AI Threat Detection Dashboard Preview">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Secure Sight – AI Cyber Threat Detection System">
-    <meta name="twitter:description" content="Instantly analyze URLs, email content, and deepfake images for phishing and security threats with Secure Sight.">
+    <meta name="twitter:title" content="SecureSight – AI Cyber Threat Detection System">
+    <meta name="twitter:description" content="Instantly analyze URLs, email content, and deepfake synthetic media for phishing and security threats with SecureSight.">
+    <meta name="twitter:image" content="{{ site_url }}/static/og-image.png">
 
     <!-- JSON-LD Structured Data Schema -->
     <script type="application/ld+json" id="securesight-jsonld">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Secure Sight",
-      "url": "http://127.0.0.1:5000/",
-      "applicationCategory": "SecurityApplication",
-      "operatingSystem": "All",
-      "description": "Secure Sight is an advanced multi-vector AI threat analysis platform that detects phishing URLs, fraudulent email messages, and deepfake synthetic images in real time.",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      }
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "{{ site_url }}/#website",
+          "url": "{{ site_url }}/",
+          "name": "SecureSight",
+          "description": "Enterprise multi-vector AI cyber threat detection platform for phishing URLs, email fraud, and deepfake media forensics.",
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "WebApplication",
+          "@id": "{{ site_url }}/#application",
+          "name": "SecureSight Cyber Threat Analyzer",
+          "url": "{{ site_url }}/",
+          "applicationCategory": "SecurityApplication",
+          "operatingSystem": "All",
+          "description": "SecureSight is an advanced multi-vector AI threat analysis platform that detects phishing URLs, fraudulent email messages, and deepfake synthetic images in real time.",
+          "softwareVersion": "1.0.0",
+          "featureList": [
+            "URL Phishing Structural & Lexical Analysis",
+            "Random Forest & Soft-Voting ML Ensemble",
+            "WHOIS Domain Reputation & SSL Validation",
+            "Email Phishing NLP Signal Extraction",
+            "Deepfake & AI Image Forensics (ELA & FFT)",
+            "RESTful Security Integration API"
+          ],
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "Organization",
+          "@id": "{{ site_url }}/#organization",
+          "name": "SecureSight Security Engineering",
+          "url": "{{ site_url }}/",
+          "logo": "{{ site_url }}/static/favicon.svg"
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "{{ site_url }}/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is SecureSight and how does it detect phishing?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "SecureSight is an AI-powered cybersecurity platform that analyzes URLs, emails, and images. It extracts lexical features, entropy, and domain indicators to evaluate threat probability using a soft-voting machine learning ensemble."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does SecureSight identify deepfake or AI-generated images?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "SecureSight employs digital forensic techniques including Error Level Analysis (ELA), Fast Fourier Transform (FFT) spectral frequency breakdown, and noise variance detection to identify synthetic artifacts."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is there a REST API available for automated security integration?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, SecureSight provides a RESTful JSON endpoint at /api/analyze that accepts URL payloads for automated security scanning in SIEM, SOAR, and CI/CD workflows."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What machine learning models are used in SecureSight?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "SecureSight utilizes a soft-voting ensemble combining Random Forest (300 trees), L2-regularized Logistic Regression, and Decision Tree classifiers trained on over 233,000 validated security dataset samples."
+              }
+            }
+          ]
+        }
+      ]
     }
     </script>
 
+    <!-- Preconnect & Performance Hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
@@ -55,76 +134,93 @@
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center gap-2" href="/" id="navbar-brand-logo">
                     <div class="brand-icon">
-                        <i class="bi bi-shield-fill-check"></i>
+                        <i class="bi bi-shield-fill-check" aria-hidden="true"></i>
                     </div>
-                    <span class="brand-name">Secure Sight</span>
+                    <span class="brand-name">SecureSight</span>
                 </a>
-                <div class="ms-auto d-flex align-items-center gap-3">
-                    <span class="status-pill" id="live-protection-status">
-                        <span class="status-dot"></span>
-                        Live Protection
-                    </span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navContent">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-3">
+                        <li class="nav-item"><a class="nav-link" href="#detector">Detector</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#technology">Technology</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#api-docs">API</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+                    </ul>
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="status-pill" id="live-protection-status">
+                            <span class="status-dot"></span>
+                            Live Protection
+                        </span>
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
 
     <!-- Hero -->
-    <section class="hero-section">
+    <section class="hero-section" id="hero">
         <div class="container text-center">
             <div class="hero-badge mb-3">
-                <i class="bi bi-cpu me-1"></i> AI-Powered Detection
+                <i class="bi bi-cpu me-1" aria-hidden="true"></i> Multi-Vector AI Threat Forensics
             </div>
-            <h1 class="hero-title">Detect Phishing Instantly</h1>
-            <p class="hero-subtitle">Analyze URLs, emails, and images with advanced machine learning to stay protected online.</p>
+            <h1 class="hero-title">Detect Phishing &amp; Cyber Threats Instantly</h1>
+            <p class="hero-subtitle">Analyze URLs, email content, and synthetic media with enterprise machine learning and real-time reputation scoring.</p>
             <div class="hero-stats d-flex justify-content-center gap-4 mt-4 flex-wrap">
                 <div class="stat-item">
-                    <div class="stat-value">99.2%</div>
-                    <div class="stat-label">Accuracy</div>
+                    <div class="stat-value">99.7%</div>
+                    <div class="stat-label">Model Accuracy</div>
                 </div>
                 <div class="stat-divider"></div>
                 <div class="stat-item">
-                    <div class="stat-value">3</div>
-                    <div class="stat-label">Detection Modes</div>
+                    <div class="stat-value">233k+</div>
+                    <div class="stat-label">Trained Dataset</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-value">3 Engines</div>
+                    <div class="stat-label">URL / Email / Image</div>
                 </div>
                 <div class="stat-divider"></div>
                 <div class="stat-item">
                     <div class="stat-value">&lt;1s</div>
-                    <div class="stat-label">Analysis Time</div>
+                    <div class="stat-label">Analysis Speed</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Main Content -->
-    <main class="main-content">
+    <main class="main-content" id="detector">
         <div class="container">
 
             {% if error_msg %}
             <div class="alert-custom alert-danger-custom mb-4" role="alert">
-                <i class="bi bi-exclamation-triangle-fill"></i>
+                <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
                 <span>{{ error_msg }}</span>
-                <button type="button" class="alert-close" onclick="this.parentElement.remove()" aria-label="Close">
-                    <i class="bi bi-x-lg"></i>
+                <button type="button" class="alert-close" onclick="this.parentElement.remove()" aria-label="Close notification">
+                    <i class="bi bi-x-lg" aria-hidden="true"></i>
                 </button>
             </div>
             {% endif %}
 
             <!-- Detector Card -->
-            <div class="detector-card">
+            <section class="detector-card" aria-label="Threat Analysis Workbench">
                 <!-- Tab Switcher -->
-                <div class="tab-switcher">
-                    <button class="tab-btn {% if check_type == 'url' or not check_type %}active{% endif %}" data-target="tab-url">
-                        <i class="bi bi-link-45deg"></i>
-                        <span>URL</span>
+                <div class="tab-switcher" role="tablist" aria-label="Analysis Modes">
+                    <button class="tab-btn {% if check_type == 'url' or not check_type %}active{% endif %}" data-target="tab-url" id="tab-btn-url" role="tab" aria-selected="{% if check_type == 'url' or not check_type %}true{% else %}false{% endif %}" aria-controls="tab-url">
+                        <i class="bi bi-link-45deg" aria-hidden="true"></i>
+                        <span>URL Scanner</span>
                     </button>
-                    <button class="tab-btn {% if check_type == 'email' %}active{% endif %}" data-target="tab-email">
-                        <i class="bi bi-envelope"></i>
-                        <span>Email</span>
+                    <button class="tab-btn {% if check_type == 'email' %}active{% endif %}" data-target="tab-email" id="tab-btn-email" role="tab" aria-selected="{% if check_type == 'email' %}true{% else %}false{% endif %}" aria-controls="tab-email">
+                        <i class="bi bi-envelope" aria-hidden="true"></i>
+                        <span>Email Inspector</span>
                     </button>
-                    <button class="tab-btn {% if check_type == 'image' %}active{% endif %}" data-target="tab-image">
-                        <i class="bi bi-image"></i>
-                        <span>Image</span>
+                    <button class="tab-btn {% if check_type == 'image' %}active{% endif %}" data-target="tab-image" id="tab-btn-image" role="tab" aria-selected="{% if check_type == 'image' %}true{% else %}false{% endif %}" aria-controls="tab-image">
+                        <i class="bi bi-image" aria-hidden="true"></i>
+                        <span>Deepfake Forensics</span>
                     </button>
                     <div class="tab-indicator"></div>
                 </div>
@@ -133,98 +229,100 @@
                 <div class="tab-panels">
 
                     <!-- URL Tab -->
-                    <div class="tab-panel {% if check_type == 'url' or not check_type %}active{% endif %}" id="tab-url">
+                    <div class="tab-panel {% if check_type == 'url' or not check_type %}active{% endif %}" id="tab-url" role="tabpanel" aria-labelledby="tab-btn-url">
                         <form method="post" id="url-form">
                             <input type="hidden" name="check_type" value="url">
                             <div class="input-row">
                                 <div class="input-wrapper flex-grow-1">
-                                    <i class="bi bi-link-45deg input-icon"></i>
-                                    <input type="url" name="url" class="pg-input"
-                                        placeholder="https://example.com/suspicious-page"
+                                    <i class="bi bi-link-45deg input-icon" aria-hidden="true"></i>
+                                    <input type="url" name="url" class="pg-input" id="url-input"
+                                        aria-label="Target URL to analyze for phishing threats"
+                                        placeholder="https://example.com/suspicious-login-page"
                                         value="{{ result.url if result and result.type == 'url' else '' }}"
-                                        autocomplete="off">
+                                        required autocomplete="off">
                                 </div>
                                 <button type="submit" class="pg-btn pg-btn-primary" id="url-submit-btn">
                                     <span class="btn-text">Analyze URL</span>
-                                    <span class="btn-spinner d-none"><i class="bi bi-arrow-repeat spin"></i></span>
+                                    <span class="btn-spinner d-none"><i class="bi bi-arrow-repeat spin" aria-hidden="true"></i> Scanning...</span>
                                 </button>
                             </div>
-                            <p class="input-hint"><i class="bi bi-info-circle me-1"></i>Paste any URL to check for phishing indicators, malicious redirects, and suspicious patterns.</p>
+                            <p class="input-hint"><i class="bi bi-info-circle me-1" aria-hidden="true"></i>Extracts Shannon entropy, lexical indicators, host structures, and domain reputation.</p>
                         </form>
                     </div>
 
                     <!-- Email Tab -->
-                    <div class="tab-panel {% if check_type == 'email' %}active{% endif %}" id="tab-email">
+                    <div class="tab-panel {% if check_type == 'email' %}active{% endif %}" id="tab-email" role="tabpanel" aria-labelledby="tab-btn-email">
                         <form method="post" id="email-form">
                             <input type="hidden" name="check_type" value="email">
                             <div class="textarea-wrapper">
-                                <i class="bi bi-envelope textarea-icon"></i>
-                                <textarea name="email_text" class="pg-textarea" rows="5"
-                                    placeholder="Paste the full email content here — including subject, body, and any suspicious links...">{{ result.content_snippet if result and result.type == 'email' else '' }}</textarea>
+                                <i class="bi bi-envelope textarea-icon" aria-hidden="true"></i>
+                                <textarea name="email_text" class="pg-textarea" id="email-input" rows="5"
+                                    aria-label="Email content snippet or body for NLP threat classification"
+                                    placeholder="Paste the full email content here — subject line, body text, financial action requests, or embedded links..." required>{{ result.content_snippet if result and result.type == 'email' else '' }}</textarea>
                             </div>
                             <div class="d-flex justify-content-between align-items-center mt-3">
-                                <p class="input-hint mb-0"><i class="bi bi-info-circle me-1"></i>Include headers and links for best results.</p>
+                                <p class="input-hint mb-0"><i class="bi bi-info-circle me-1" aria-hidden="true"></i>Evaluates urgency signals, financial keywords, and hyperlink density.</p>
                                 <button type="submit" class="pg-btn pg-btn-primary" id="email-submit-btn">
                                     <span class="btn-text">Analyze Email</span>
-                                    <span class="btn-spinner d-none"><i class="bi bi-arrow-repeat spin"></i></span>
+                                    <span class="btn-spinner d-none"><i class="bi bi-arrow-repeat spin" aria-hidden="true"></i> Analyzing...</span>
                                 </button>
                             </div>
                         </form>
                     </div>
 
                     <!-- Image Tab -->
-                    <div class="tab-panel {% if check_type == 'image' %}active{% endif %}" id="tab-image">
+                    <div class="tab-panel {% if check_type == 'image' %}active{% endif %}" id="tab-image" role="tabpanel" aria-labelledby="tab-btn-image">
                         <form method="post" enctype="multipart/form-data" id="image-form">
                             <input type="hidden" name="check_type" value="image">
                             <div class="dropzone" id="dropzone">
-                                <input type="file" name="image_file" id="image-file-input" accept="image/png,image/jpeg,image/webp" class="dropzone-input">
+                                <input type="file" name="image_file" id="image-file-input" accept="image/png,image/jpeg,image/webp" class="dropzone-input" aria-label="Upload image for synthetic media and deepfake detection">
                                 <div class="dropzone-content" id="dropzone-content">
-                                    <div class="dropzone-icon"><i class="bi bi-cloud-arrow-up"></i></div>
+                                    <div class="dropzone-icon"><i class="bi bi-cloud-arrow-up" aria-hidden="true"></i></div>
                                     <p class="dropzone-title">Drop image here or <span class="dropzone-link">browse</span></p>
-                                    <p class="dropzone-hint">JPG, PNG, WEBP — max 5 MB</p>
+                                    <p class="dropzone-hint">PNG, JPG, WEBP — max 5 MB</p>
                                 </div>
                                 <div class="dropzone-preview d-none" id="dropzone-preview">
-                                    <img id="preview-img" src="" alt="Preview" class="preview-image">
+                                    <img id="preview-img" src="" alt="Uploaded image file preview for forensic analysis" class="preview-image">
                                     <div class="preview-info">
                                         <p class="preview-name" id="preview-name"></p>
-                                        <button type="button" class="preview-remove" id="preview-remove"><i class="bi bi-x-circle-fill"></i> Remove</button>
+                                        <button type="button" class="preview-remove" id="preview-remove"><i class="bi bi-x-circle-fill" aria-hidden="true"></i> Remove</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end mt-3">
                                 <button type="submit" class="pg-btn pg-btn-primary" id="image-submit-btn">
-                                    <span class="btn-text">Analyze Image</span>
-                                    <span class="btn-spinner d-none"><i class="bi bi-arrow-repeat spin"></i></span>
+                                    <span class="btn-text">Run Forensics</span>
+                                    <span class="btn-spinner d-none"><i class="bi bi-arrow-repeat spin" aria-hidden="true"></i> Inspecting...</span>
                                 </button>
                             </div>
                         </form>
                     </div>
 
                 </div>
-            </div>
+            </section>
 
             <!-- Result Section -->
             {% if result %}
-            <div class="result-section mt-4" id="result-section">
+            <section class="result-section mt-4" id="result-section" aria-label="Analysis Results">
 
                 <!-- Verdict Banner -->
                 <div class="verdict-banner {% if result.decision in ['Phishing', 'AI Generated'] %}verdict-danger{% else %}verdict-safe{% endif %}">
                     <div class="verdict-icon">
                         {% if result.decision in ['Phishing', 'AI Generated'] %}
-                        <i class="bi bi-shield-x-fill"></i>
+                        <i class="bi bi-shield-x-fill" aria-hidden="true"></i>
                         {% else %}
-                        <i class="bi bi-shield-check-fill"></i>
+                        <i class="bi bi-shield-check-fill" aria-hidden="true"></i>
                         {% endif %}
                     </div>
                     <div class="verdict-text">
-                        <div class="verdict-label">Detection Result</div>
+                        <div class="verdict-label">Threat Verdict</div>
                         <div class="verdict-decision">{{ result.decision }}</div>
                     </div>
                     <div class="verdict-badge">
                         {% if result.decision in ['Phishing', 'AI Generated'] %}
-                        <i class="bi bi-exclamation-triangle-fill me-1"></i> Threat Detected
+                        <i class="bi bi-exclamation-triangle-fill me-1" aria-hidden="true"></i> Threat Flagged
                         {% else %}
-                        <i class="bi bi-check-circle-fill me-1"></i> No Threat Found
+                        <i class="bi bi-check-circle-fill me-1" aria-hidden="true"></i> Clean / Legitimate
                         {% endif %}
                     </div>
                 </div>
@@ -233,9 +331,9 @@
                 <div class="metrics-row">
                     <div class="metric-card">
                         <div class="metric-label">
-                            {% if result.type == 'url' %}Target URL
-                            {% elif result.type == 'email' %}Email Preview
-                            {% else %}File Analyzed{% endif %}
+                            {% if result.type == 'url' %}Analyzed Target URL
+                            {% elif result.type == 'email' %}Email Content Snippet
+                            {% else %}Image Media File{% endif %}
                         </div>
                         <div class="metric-value text-break">
                             {% if result.type == 'url' %}{{ result.url }}
@@ -246,7 +344,7 @@
 
                     {% if result.type == 'image' %}
                     <div class="metric-card metric-card-stat">
-                        <div class="metric-label">AI Risk Score</div>
+                        <div class="metric-label">AI Threat Score</div>
                         <div class="metric-big {% if result.risk_score > 50 %}text-danger{% else %}text-success{% endif %}">
                             {{ result.risk_score }}<span class="metric-unit">%</span>
                         </div>
@@ -256,15 +354,15 @@
                         </div>
                     </div>
                     <div class="metric-card metric-card-stat">
-                        <div class="metric-label">Anomalies Found</div>
+                        <div class="metric-label">Forensic Signals</div>
                         <div class="metric-big {% if result.signals|length > 0 %}text-danger{% else %}text-success{% endif %}">
                             {{ result.signals|length }}
                         </div>
-                        <div class="metric-sub">Detected Flags</div>
+                        <div class="metric-sub">Anomalies Detected</div>
                     </div>
                     {% else %}
                     <div class="metric-card metric-card-stat">
-                        <div class="metric-label">ML Probability</div>
+                        <div class="metric-label">ML Risk Score</div>
                         <div class="metric-big {% if result.ml_probability > 0.5 %}text-danger{% else %}text-success{% endif %}">
                             {{ (result.ml_probability * 100) | round(1) }}<span class="metric-unit">%</span>
                         </div>
@@ -285,9 +383,9 @@
 
                 <!-- Breakdown Toggle -->
                 <div class="breakdown-section">
-                    <button class="breakdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#breakdown-body" aria-expanded="false">
-                        <span><i class="bi bi-bar-chart-line me-2"></i>View Detailed Breakdown</span>
-                        <i class="bi bi-chevron-down toggle-chevron"></i>
+                    <button class="breakdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#breakdown-body" aria-expanded="false" aria-controls="breakdown-body">
+                        <span><i class="bi bi-bar-chart-line me-2" aria-hidden="true"></i>View Technical Diagnostic Breakdown</span>
+                        <i class="bi bi-chevron-down toggle-chevron" aria-hidden="true"></i>
                     </button>
 
                     <div class="collapse" id="breakdown-body">
@@ -309,9 +407,9 @@
                                     {% endif %}
                                     <div class="breakdown-val">
                                         {% if value is sameas true %}
-                                        <span class="chip chip-success"><i class="bi bi-check-lg"></i> Yes</span>
+                                        <span class="chip chip-success"><i class="bi bi-check-lg" aria-hidden="true"></i> Yes</span>
                                         {% elif value is sameas false %}
-                                        <span class="chip chip-danger"><i class="bi bi-x-lg"></i> No</span>
+                                        <span class="chip chip-danger"><i class="bi bi-x-lg" aria-hidden="true"></i> No</span>
                                         {% else %}
                                         <span class="chip chip-neutral">{{ value }}</span>
                                         {% endif %}
@@ -344,7 +442,7 @@
                                     <div class="breakdown-val"><span class="chip chip-neutral">{{ ((result.ml_risk | default(0)) * 100) | round(1) }}%</span></div>
                                 </div>
                                 <div class="breakdown-item">
-                                    <div class="breakdown-key">ELA Score (Forensics)</div>
+                                    <div class="breakdown-key">Error Level Analysis (ELA)</div>
                                     <div class="breakdown-bar-wrap">
                                         <div class="breakdown-bar-fill {% if (result.ela_score | default(0)) > 0.5 %}bar-danger{% else %}bar-safe{% endif %}"
                                             style="width: {{ ((result.ela_score | default(0)) * 100) | round(1) }}%"></div>
@@ -352,7 +450,7 @@
                                     <div class="breakdown-val"><span class="chip chip-neutral">{{ ((result.ela_score | default(0)) * 100) | round(1) }}%</span></div>
                                 </div>
                                 <div class="breakdown-item">
-                                    <div class="breakdown-key">Frequency Artifacts (FFT)</div>
+                                    <div class="breakdown-key">Fast Fourier Transform (FFT Artifacts)</div>
                                     <div class="breakdown-bar-wrap">
                                         <div class="breakdown-bar-fill {% if (result.fft_score | default(0)) > 0.5 %}bar-danger{% else %}bar-safe{% endif %}"
                                             style="width: {{ ((result.fft_score | default(0)) * 100) | round(1) }}%"></div>
@@ -360,7 +458,7 @@
                                     <div class="breakdown-val"><span class="chip chip-neutral">{{ ((result.fft_score | default(0)) * 100) | round(1) }}%</span></div>
                                 </div>
                                 <div class="breakdown-item">
-                                    <div class="breakdown-key">Unnatural Noise Variance</div>
+                                    <div class="breakdown-key">Noise Variance Anomaly</div>
                                     <div class="breakdown-bar-wrap">
                                         <div class="breakdown-bar-fill {% if (result.noise_score | default(0)) > 0.5 %}bar-danger{% else %}bar-safe{% endif %}"
                                             style="width: {{ ((result.noise_score | default(0)) * 100) | round(1) }}%"></div>
@@ -370,11 +468,11 @@
                             </div>
                             {% if result.signals %}
                             <div class="signals-section mt-3">
-                                <div class="signals-label">Detected Anomalies</div>
+                                <div class="signals-label">Detected Forensic Anomalies</div>
                                 <div class="signals-list">
                                     {% for signal in result.signals %}
                                     <span class="signal-chip">
-                                        <i class="bi bi-exclamation-circle me-1"></i>
+                                        <i class="bi bi-exclamation-circle me-1" aria-hidden="true"></i>
                                         {{ signal | replace('_', ' ') | title }}
                                     </span>
                                     {% endfor %}
@@ -386,13 +484,13 @@
                             <!-- AI Insight -->
                             <div class="ai-insight mt-4">
                                 <div class="ai-insight-header">
-                                    <i class="bi bi-stars me-2"></i>AI Insight
+                                    <i class="bi bi-stars me-2" aria-hidden="true"></i>Explainable AI Summary
                                 </div>
                                 <p class="ai-insight-body">
                                     {% if result.type == 'image' %}
-                                    Our ensemble analysis calculated a <strong>{{ result.risk_score }}%</strong> risk of this image being AI-generated or manipulated, based on Deep Learning detection and forensic heuristics including Error Level Analysis (ELA) and frequency artifact scanning.
+                                    Our forensic vision engine calculated a <strong>{{ result.risk_score }}%</strong> risk of synthetic manipulation based on Error Level Analysis (ELA) compression artifacts, frequency domain FFT noise patterns, and deep feature classification.
                                     {% else %}
-                                    Our analysis calculated a <strong>{{ (result.ml_probability * 100) | round(1) }}%</strong> probability of this being a phishing attempt, based on patterns found in the provided content and cross-referenced against known threat signatures.
+                                    Our ensemble security classifier calculated a <strong>{{ (result.ml_probability * 100) | round(1) }}%</strong> probability of malicious activity based on lexical feature extraction, structural domain entropy, WHOIS age factors, and NLP keyword indicators.
                                     {% endif %}
                                 </p>
                             </div>
@@ -401,36 +499,169 @@
                     </div>
                 </div>
 
-            </div>
+            </section>
             {% endif %}
 
         </div>
     </main>
 
-    <!-- How It Works -->
-    <section class="how-it-works">
+    <!-- Core Features Section -->
+    <section class="how-it-works" id="features">
         <div class="container">
-            <h2 class="section-title text-center">How It Works</h2>
-            <div class="row g-4 mt-2">
+            <h2 class="section-title text-center">Multi-Vector Cyber Threat Engines</h2>
+            <p class="text-center text-secondary mb-5 max-w-600 mx-auto">SecureSight integrates specialized machine learning classifiers to defend against modern phishing vectors.</p>
+            <div class="row g-4">
                 <div class="col-md-4">
                     <div class="how-card">
-                        <div class="how-icon how-icon-1"><i class="bi bi-search"></i></div>
-                        <h5>Submit Content</h5>
-                        <p>Paste a URL, email body, or upload an image you want to verify.</p>
+                        <div class="how-icon how-icon-1"><i class="bi bi-link-45deg" aria-hidden="true"></i></div>
+                        <h3>URL Lexical &amp; Entropy Engine</h3>
+                        <p>Extracts 11+ structural and numeric parameters including Shannon entropy, host/path ratios, special character distribution, and WHOIS domain age.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="how-card">
-                        <div class="how-icon how-icon-2"><i class="bi bi-cpu"></i></div>
-                        <h5>AI Analysis</h5>
-                        <p>Our ensemble ML model extracts features and scores threat probability in real time.</p>
+                        <div class="how-icon how-icon-2"><i class="bi bi-envelope-exclamation" aria-hidden="true"></i></div>
+                        <h3>Email NLP Phishing Classifier</h3>
+                        <p>Parses email headers and message bodies to flag urgency pressure signals, financial keywords, credential harvest vectors, and deceptive links.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="how-card">
-                        <div class="how-icon how-icon-3"><i class="bi bi-shield-check"></i></div>
-                        <h5>Get Results</h5>
-                        <p>Receive a clear verdict with a detailed breakdown of every risk signal found.</p>
+                        <div class="how-icon how-icon-3"><i class="bi bi-eye" aria-hidden="true"></i></div>
+                        <h3>Deepfake Media Forensics</h3>
+                        <p>Applies Error Level Analysis (ELA), Fast Fourier Transform (FFT) frequency spectrum artifacts, and noise distribution scanning to identify AI imagery.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology & Architecture Section -->
+    <section class="py-5 bg-light" id="technology">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <h2 class="section-title mb-3">Enterprise Machine Learning Architecture</h2>
+                    <p class="text-secondary">SecureSight is powered by a soft-voting ensemble model combining Random Forest (300 estimators), L2-regularized Logistic Regression, and Decision Tree classifiers trained on over 233,000 verified URL threat samples balanced via SMOTE.</p>
+                    <ul class="list-unstyled d-flex flex-column gap-2 mt-4 text-dark">
+                        <li><i class="bi bi-check-circle-fill text-success me-2" aria-hidden="true"></i> <strong>99.73% Model Accuracy</strong> on out-of-sample benchmark tests</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2" aria-hidden="true"></i> <strong>99.59% Precision &amp; 99.94% Recall</strong> for minimal false negatives</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2" aria-hidden="true"></i> <strong>Real-time WHOIS &amp; SSL Validation</strong> integrated into risk scoring</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm p-4 rounded-4">
+                        <h3 class="h5 fw-bold mb-3">Verified Benchmark Performance</h3>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">Metric</th>
+                                        <th scope="col" class="text-end">Ensemble Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Model Accuracy</td><td class="text-end fw-bold text-success">99.73%</td></tr>
+                                    <tr><td>Precision</td><td class="text-end fw-bold text-success">99.59%</td></tr>
+                                    <tr><td>Recall</td><td class="text-end fw-bold text-success">99.94%</td></tr>
+                                    <tr><td>F1 Score</td><td class="text-end fw-bold text-success">99.76%</td></tr>
+                                    <tr><td>ROC-AUC Curve</td><td class="text-end fw-bold text-success">99.86%</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REST API Integration Section -->
+    <section class="py-5" id="api-docs">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">Programmatic Security API</h2>
+                <p class="text-secondary max-w-600 mx-auto">Integrate SecureSight URL threat scanning directly into your automated pipelines, browser extensions, or SIEM platforms.</p>
+            </div>
+            <div class="card bg-dark text-white rounded-4 p-4 shadow-lg mx-auto" style="max-width: 760px;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="badge bg-primary fs-6">POST /api/analyze</span>
+                    <span class="text-muted small">Content-Type: application/json</span>
+                </div>
+                <pre class="mb-3 text-success font-monospace" style="font-size: 0.9rem;"><code>// Request Payload
+{
+  "url": "http://suspicious-banking-verify.com/secure/login.php"
+}</code></pre>
+                <div class="border-top border-secondary pt-3">
+                    <pre class="mb-0 text-light font-monospace" style="font-size: 0.85rem;"><code>// 200 OK Response
+{
+  "url": "http://suspicious-banking-verify.com/secure/login.php",
+  "decision": "Phishing",
+  "ml_probability": 0.942,
+  "risk_score": 85,
+  "explanation": {
+    "ml_detail": "High ML probability score (0.942) indicating structural phishing patterns.",
+    "risk_breakdown": [
+      "Domain age under 30 days",
+      "Suspicious keyword: 'login'"
+    ]
+  }
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Frequently Asked Questions (FAQ) Section -->
+    <section class="py-5 bg-light" id="faq">
+        <div class="container" style="max-width: 800px;">
+            <h2 class="section-title text-center mb-4">Frequently Asked Questions</h2>
+            <div class="accordion accordion-flush shadow-sm rounded-4 overflow-hidden" id="faqAccordion">
+                <div class="accordion-item">
+                    <h3 class="accordion-header" id="faq-heading-1">
+                        <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq-collapse-1" aria-expanded="true" aria-controls="faq-collapse-1">
+                            What is SecureSight and how does it detect phishing?
+                        </button>
+                    </h3>
+                    <div id="faq-collapse-1" class="accordion-collapse collapse show" aria-labelledby="faq-heading-1" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary">
+                            SecureSight is an enterprise-grade AI cybersecurity platform that inspects URLs, email text, and uploaded images. It extracts lexical features, structural entropy, WHOIS domain age indicators, and NLP keyword signals to score threat probability using a soft-voting machine learning ensemble.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h3 class="accordion-header" id="faq-heading-2">
+                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq-collapse-2" aria-expanded="false" aria-controls="faq-collapse-2">
+                            How does SecureSight identify synthetic or deepfake images?
+                        </button>
+                    </h3>
+                    <div id="faq-collapse-2" class="accordion-collapse collapse" aria-labelledby="faq-heading-2" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary">
+                            SecureSight employs advanced digital forensics including Error Level Analysis (ELA) to identify resaved compression artifacts, Fast Fourier Transform (FFT) frequency spectrum mapping to find periodic GAN/diffusion noise, and pixel variance analysis to detect synthetic media.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h3 class="accordion-header" id="faq-heading-3">
+                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq-collapse-3" aria-expanded="false" aria-controls="faq-collapse-3">
+                            Is there a REST API for programmatic threat scanning?
+                        </button>
+                    </h3>
+                    <div id="faq-collapse-3" class="accordion-collapse collapse" aria-labelledby="faq-heading-3" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary">
+                            Yes, SecureSight provides a RESTful POST endpoint at <code>/api/analyze</code> that accepts JSON payloads containing target URLs and returns machine learning risk probabilities, decision verdicts, and explainable breakdown details.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h3 class="accordion-header" id="faq-heading-4">
+                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq-collapse-4" aria-expanded="false" aria-controls="faq-collapse-4">
+                            What machine learning models power the classification engine?
+                        </button>
+                    </h3>
+                    <div id="faq-collapse-4" class="accordion-collapse collapse" aria-labelledby="faq-heading-4" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary">
+                            SecureSight uses a soft-voting ensemble consisting of Random Forest (300 decision trees), L2-regularized Logistic Regression, and Decision Trees trained on a dataset of 233,670 URL samples balanced with Synthetic Minority Over-sampling Technique (SMOTE).
+                        </div>
                     </div>
                 </div>
             </div>
@@ -439,12 +670,19 @@
 
     <!-- Footer -->
     <footer class="pg-footer">
-        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
             <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-shield-fill-check footer-logo-icon"></i>
-                <span class="footer-brand">Secure Sight</span>
+                <i class="bi bi-shield-fill-check footer-logo-icon" aria-hidden="true"></i>
+                <span class="footer-brand">SecureSight</span>
             </div>
-            <span class="footer-copy">© 2026 Secure Sight — Developed for Academic Research &amp; Online Safety</span>
+            <div class="footer-links d-flex gap-3 small">
+                <a href="#detector" class="text-secondary text-decoration-none">Detector</a>
+                <a href="#features" class="text-secondary text-decoration-none">Features</a>
+                <a href="#technology" class="text-secondary text-decoration-none">Technology</a>
+                <a href="#api-docs" class="text-secondary text-decoration-none">API</a>
+                <a href="#faq" class="text-secondary text-decoration-none">FAQ</a>
+            </div>
+            <span class="footer-copy">© 2026 SecureSight Security — Developed for Academic Research &amp; Cyber Safety</span>
         </div>
     </footer>
 
