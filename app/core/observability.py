@@ -18,7 +18,8 @@ class JSONFormatter(logging.Formatter):
                 data["actor_role"] = principal["role"]
         for key in ("status", "duration_ms", "endpoint", "error_type", "assessment_version",
                     "scoring_config_version", "scoring_config_sha256", "risk_score", "confidence",
-                    "verdict", "evidence_coverage", "signal_ids", "phase", "redirect_count", "unique_domains", "error_code"):
+                    "verdict", "evidence_coverage", "signal_ids", "phase", "redirect_count", "unique_domains",
+                    "error_code", "diagnostic_code"):
             if hasattr(record, key):
                 data[key] = getattr(record, key)
         if record.exc_info:

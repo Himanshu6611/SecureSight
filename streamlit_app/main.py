@@ -42,7 +42,22 @@ def _backend_app():
     _load_streamlit_secrets()
     from app import create_app
 
-    return create_app()
+    app = create_app()
+    # Exercise the exact optional image-model load once during app startup. This
+    # keeps deployment-only dependency/artifact failures visible in Cloud logs
+    # before a user uploads a file; the model itself remains cached per process.
+    from app.media.models import _session
+
+    try:
+        _session()
+    except Exception as exc:
+        app.logger.warning(
+            "media_origin_model_startup_check_failed",
+            extra={"phase": "10", "diagnostic_code": type(exc).__name__[:64]},
+        )
+    else:
+        app.logger.info("media_origin_model_startup_check_passed", extra={"phase": "10"})
+    return app
 
 
 def _client(app):
@@ -214,6 +229,7 @@ def _show_error(response) -> None:
 
 def main() -> None:
     st.set_page_config(page_title="SecureSight", page_icon="🛡️", layout="centered")
+    _backend_app()
     st.title("SecureSight")
     st.write("Check a link, email file, or image for observable security signals.")
     st.caption("Results are decision support. A clean result is not proof that content is safe.")
