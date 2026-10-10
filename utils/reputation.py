@@ -7,12 +7,14 @@ Risk scoring helpers that complement the ML prediction.
 """
 
 import os
-import datetime
-import socket
-import ssl
 import json
 import hashlib
-import requests
+import datetime
+import logging
+import ipaddress
+from app.security.outbound import safe_head, whois_text
+from app.security.urls import InvalidURL, validate_url
+from utils.feature_extraction import DOMAIN_EXTRACTOR
 import pandas as pd
 try:
     import whois
@@ -28,22 +30,37 @@ BLACKLIST_PATH = os.path.abspath(
 )
 
 def _load_blacklist() -> set:
-    if not os.path.exists(BLACKLIST_PATH):
+    try:
+        metadata_path = os.path.join(os.path.dirname(BLACKLIST_PATH), "metadata", "blacklist_metadata.json")
+        with open(metadata_path, encoding="utf8") as stream:
+            metadata = json.load(stream)
+        with open(BLACKLIST_PATH, "rb") as stream:
+            checksum = hashlib.sha256(stream.read()).hexdigest()
+        if metadata.get("partition") != "train_only" or metadata.get("sha256") != checksum:
+            return set()
+        df = pd.read_csv(BLACKLIST_PATH)
+        return set(df["domain"].dropna().str.lower().unique())
+    except (OSError, ValueError, KeyError):
         return set()
-    df = pd.read_csv(BLACKLIST_PATH, header=None, names=["domain"])
-    return set(df["domain"].str.lower().unique())
 
 BLACKLIST = _load_blacklist()
 
 # ----------------------------------------------------------------------
 def _domain_age_in_days(domain: str) -> int:
-    """Return domain age in days (WHOIS).  If unavailable, return a large default."""
+    """Return domain age in days; preserve zero fallback for unavailable WHOIS."""
     if whois is None or not domain:
         return 0
-    orig_timeout = socket.getdefaulttimeout()
     try:
-        socket.setdefaulttimeout(2.0)
-        w = whois.whois(domain)
+        try:
+            ipaddress.ip_address(domain)
+            return 0
+        except ValueError:
+            pass
+        ext = DOMAIN_EXTRACTOR(domain)
+        registered = f"{ext.domain}.{ext.suffix}" if ext.suffix else ""
+        if not registered:
+            return 0
+        w = whois.parser.WhoisEntry.load(registered, whois_text(registered))
         creation = w.creation_date
         if isinstance(creation, list) and len(creation) > 0:
             creation = creation[0]
@@ -60,9 +77,7 @@ def _domain_age_in_days(domain: str) -> int:
                 age = (datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None) - creation).days
             return max(age, 0)
     except Exception:
-        pass
-    finally:
-        socket.setdefaulttimeout(orig_timeout)
+        logging.getLogger(__name__).info("whois_unavailable")
     # If WHOIS fails, treat as “new” domain (high risk)
     return 0
 
@@ -70,18 +85,19 @@ def _domain_age_in_days(domain: str) -> int:
 def _has_valid_ssl(url: str) -> bool:
     """Perform a simple HEAD request with SSL verification."""
     try:
-        resp = requests.head(url, timeout=2, verify=True, allow_redirects=True)
-        return resp.ok
+        return safe_head(url)
+    except InvalidURL:
+        raise
     except Exception:
         return False
 
 # ----------------------------------------------------------------------
 def _blacklist_hit(domain: str) -> int:
-    """1 if domain (or its top‑level domain) appears in local blacklist."""
+    """1 if the exact hostname appears in the local blacklist (existing rule)."""
     return int(domain.lower() in BLACKLIST)
 
 # ----------------------------------------------------------------------
-def compute_risk_score(url: str, feature_dict: dict) -> float:
+def compute_risk_score(url: str, feature_dict: dict, signals=None) -> float:
     """
     Weighted risk score (0‑100).  Feature dict is the output of
     utils.feature_extraction.extract_features for the same URL.
@@ -89,9 +105,7 @@ def compute_risk_score(url: str, feature_dict: dict) -> float:
     parsed = urlparse(url if "://" in url else f"http://{url}")
     hostname = parsed.hostname or ""
     # ---------- Reputation signals ----------
-    age_days = _domain_age_in_days(hostname)
-    ssl_ok = _has_valid_ssl(url)
-    blacklist = _blacklist_hit(hostname)
+    age_days, ssl_ok, blacklist = signals if signals is not None else reputation_signals(url)
 
     # ---------- Normalised numeric values ----------
     # Age: newer --> higher risk, so invert.
@@ -130,16 +144,14 @@ def compute_risk_score(url: str, feature_dict: dict) -> float:
     return round(raw_score * 100, 2)
 
 # ----------------------------------------------------------------------
-def explain_risk(url: str, feature_dict: dict) -> dict:
+def explain_risk(url: str, feature_dict: dict, signals=None) -> dict:
     """
     Return a dictionary that breaks down each component of the risk score.
     Helpful for UI “Why?” view.
     """
     parsed = urlparse(url if "://" in url else f"http://{url}")
     hostname = parsed.hostname or ""
-    age_days = _domain_age_in_days(hostname)
-    ssl_ok = _has_valid_ssl(url)
-    blacklist = _blacklist_hit(hostname)
+    age_days, ssl_ok, blacklist = signals if signals is not None else reputation_signals(url)
 
     # Normalise components exactly as used in compute_risk_score
     age_score = 1 - min(age_days / 3650, 1)
@@ -168,3 +180,12 @@ def explain_risk(url: str, feature_dict: dict) -> dict:
         "Entropy risk (0‑1)": round(entropy_score, 3),
     }
     return breakdown
+
+
+def reputation_signals(url):
+    """Collect once, so the verdict and explanation use the same evidence."""
+    url = validate_url(url)
+    hostname = urlparse(url).hostname
+    # Check the target before querying reputation providers.
+    ssl_ok = _has_valid_ssl(url)
+    return _domain_age_in_days(hostname), ssl_ok, _blacklist_hit(hostname)

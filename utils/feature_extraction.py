@@ -16,6 +16,8 @@ SUSPICIOUS_TOKENS = [
     "reset", "signin", "admin", "password", "gift"
 ]
 
+DOMAIN_EXTRACTOR = tldextract.TLDExtract(suffix_list_urls=(), cache_dir=None)
+
 IP_PATTERN = re.compile(r"^(?:\d{1,3}\.){3}\d{1,3}$")
 
 def _has_ip(hostname: str) -> bool:
@@ -61,7 +63,7 @@ def extract_features(url: str) -> dict:
 
     # ------------------------------------------------------------------
     # Domain details via tldextract
-    ext = tldextract.extract(url)
+    ext = DOMAIN_EXTRACTOR(url)
     domain_len = len(ext.domain)
     subdomain_depth = len(ext.subdomain.split('.')) if ext.subdomain else 0
 
