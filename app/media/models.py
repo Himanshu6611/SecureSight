@@ -75,6 +75,9 @@ class ExperimentalAIOriginModel(MediaDetectionModel):
                 outputs=[{"kind": "AI_ORIGIN_PATTERN", "score": round(float(score), 6),
                           "classification": classification}], agreement="SINGLE_MODEL")
             return base
-        except Exception:
+        except Exception as exc:
             # A missing or damaged optional artifact must not fail image intake.
+            # Return only the exception class for server-side diagnosis; exception
+            # messages can contain paths or environment details and are not exposed.
+            base["diagnostic_code"] = type(exc).__name__[:64]
             return base

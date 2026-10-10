@@ -81,6 +81,9 @@ def analyze(file, language="eng", email_context=None, source_url=None, url_analy
         result["correlations"]["source_claim_verified"] = False
     model_status = result["synthetic_media"].get("analysis_status")
     model_available = model_status in {"EXPERIMENTAL_ESTIMATE", "INSUFFICIENT_QUALITY"}
+    if not model_available:
+        current_app.logger.warning("media_origin_model_unavailable", extra={
+            "diagnostic_code": result["synthetic_media"].get("diagnostic_code", "UNKNOWN")})
     evidence = (["media.ai_origin_model_observation"] if model_status == "EXPERIMENTAL_ESTIMATE"
                 else ["media.model_unavailable"] if not model_available else [])
     evidence.append("media.measured_properties")
